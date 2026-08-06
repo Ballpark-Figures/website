@@ -1,6 +1,9 @@
 # Generated site output (built by build.py; published by CI)
 /_site/
 
+# Wrangler CLI cache (from local `wrangler pages deploy`)
+/.wrangler/
+
 # Python
 __pycache__/
 *.py[cod]
