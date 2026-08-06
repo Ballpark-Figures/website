@@ -35,7 +35,7 @@ a:hover { text-decoration: underline; }
   height: 68px;
 }
 .brand { display: flex; align-items: center; gap: 0.65rem; }
-.brand img { width: 34px; height: 34px; display: block; }
+.brand img { width: 34px; height: 34px; display: block; border-radius: 50%; }
 .brand span { font-weight: 800; font-size: 1.15rem; color: var(--deep); letter-spacing: -0.01em; }
 .brand:hover { text-decoration: none; }
 .nav { display: flex; gap: 1.4rem; }
@@ -49,7 +49,7 @@ a:hover { text-decoration: underline; }
   text-align: center;
   padding: 4.5rem 1.5rem 4rem;
 }
-.hero img { width: 92px; height: 92px; margin-bottom: 1.2rem; }
+.hero img { width: 104px; height: 104px; margin-bottom: 1.2rem; border-radius: 50%; box-shadow: 0 6px 20px rgba(0,0,0,0.25); }
 .hero h1 { font-weight: 800; font-size: clamp(2.4rem, 6vw, 3.6rem); letter-spacing: -0.02em; line-height: 1.05; }
 .hero p { font-weight: 600; font-size: clamp(1.05rem, 2.6vw, 1.3rem); opacity: 0.95; margin-top: 0.8rem; }
 

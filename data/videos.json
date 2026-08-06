@@ -1,10 +1,18 @@
 [
   {
-    "slug": "example",
-    "title": "REPLACE_ME — Video title",
-    "date": "2026-01-01",
-    "youtube_id": "REPLACE_ME",
+    "slug": "yahtzee",
+    "title": "I Solved Yahtzee*",
+    "date": "2026-07-19",
+    "youtube_id": "DOgb5wrb7mM",
     "substack_url": "REPLACE_ME",
-    "blurb": "REPLACE_ME — one or two sentences describing the video. Shown on the video's card and page."
+    "blurb": ""
+  },
+  {
+    "slug": "battleship",
+    "title": "I Analyzed All 30,093,975,536 Battleship Boards So You Don't Have To",
+    "date": "2026-06-13",
+    "youtube_id": "ZBdajiTz48k",
+    "substack_url": "REPLACE_ME",
+    "blurb": ""
   }
 ]

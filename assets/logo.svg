@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-label="Ballpark Figures logo">
-  <rect x="2" y="2" width="96" height="96" rx="22" fill="#0000AF"/>
-  <!-- ascending bars -->
-  <rect x="24" y="60" width="13" height="20" rx="2.5" fill="#F7F2E7"/>
-  <rect x="43.5" y="46" width="13" height="34" rx="2.5" fill="#E8A33D"/>
-  <rect x="63" y="30" width="13" height="50" rx="2.5" fill="#F7F2E7"/>
-  <!-- trend dot + arc hint -->
-  <circle cx="69.5" cy="26" r="4.5" fill="#E8A33D"/>
-</svg>

@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """Ballpark Figures static-site generator.
 
-Reads data/site.json + data/videos.json, renders templates/base.html into
-static HTML at the repo root. No dependencies — just `python3 build.py`.
+Reads data/site.json + data/videos.json, renders templates/base.html, and
+assembles the whole site into _site/. No dependencies — just `python3 build.py`.
 
-Add a video: append an entry to data/videos.json, then rerun this script and
-commit. Fields with "REPLACE_ME" render as tidy placeholders until filled in.
+Add a video: append an entry to data/videos.json, then rerun this script.
+Empty or "REPLACE_ME" fields are simply omitted (no invented placeholder text).
 """
 import html
 import json
@@ -56,16 +56,12 @@ def social_block(site: dict) -> str:
     ]
     out = []
     for key, label, href, new_tab in items:
-        icon = ICONS[key]
         if missing(href):
-            out.append(
-                f'        <span style="display:flex;align-items:center;gap:.45rem;opacity:.45">{icon}<span>{label}</span></span>'
-            )
-        else:
-            tab = ' target="_blank" rel="noopener"' if new_tab else ""
-            out.append(
-                f'        <a href="{esc(href)}"{tab}>{icon}<span>{label}</span></a>'
-            )
+            continue  # omit links we don't have a real URL for
+        tab = ' target="_blank" rel="noopener"' if new_tab else ""
+        out.append(
+            f'        <a href="{esc(href)}"{tab}>{ICONS[key]}<span>{label}</span></a>'
+        )
     return "\n".join(out)
 
 
@@ -113,27 +109,34 @@ def card_html(video: dict) -> str:
 
 
 def about_html(site: dict) -> str:
-    cls = "about-text placeholder" if missing(site.get("about")) else "about-text"
-    return f'<p class="{cls}">{esc(site["about"])}</p>'
+    """The About paragraph, or "" when there's no real text yet (no placeholder)."""
+    if missing(site.get("about")):
+        return ""
+    return f'<p class="about-text">{esc(site["about"])}</p>'
+
+
+def tagline_html(site: dict) -> str:
+    return "" if missing(site.get("tagline")) else f'<p>{esc(site["tagline"])}</p>'
 
 
 def build_index(base, site, videos) -> str:
-    cards = "\n".join(card_html(v) for v in videos) or \
-        '      <p class="about-text">No videos yet — check back soon.</p>'
-    content = f"""
-    <section class="hero">
-      <img src="/assets/logo.svg" alt="{esc(site['name'])} logo">
-      <h1>{esc(site['name'])}</h1>
-      <p>{esc(site['tagline'])}</p>
-    </section>
-
+    cards = "\n".join(card_html(v) for v in videos)
+    about = about_html(site)
+    about_section = "" if not about else f"""
     <section id="about">
       <div class="wrap">
         <h2 class="section-title">About</h2>
-        {about_html(site)}
+        {about}
       </div>
     </section>
-
+"""
+    content = f"""
+    <section class="hero">
+      <img src="/assets/logo.jpg" alt="{esc(site['name'])} logo">
+      <h1>{esc(site['name'])}</h1>
+      {tagline_html(site)}
+    </section>
+{about_section}
     <section id="videos">
       <div class="wrap">
         <h2 class="section-title">Videos</h2>
@@ -146,7 +149,7 @@ def build_index(base, site, videos) -> str:
     return render_page(base, site, title=site["name"],
                        description=site["tagline"], content=content,
                        canonical=BASE_URL + "/",
-                       og_image=BASE_URL + "/assets/logo.svg")
+                       og_image=BASE_URL + "/assets/logo.jpg")
 
 
 def build_about(base, site) -> str:
@@ -161,7 +164,7 @@ def build_about(base, site) -> str:
     return render_page(base, site, title=f"About — {site['name']}",
                        description=f"About {site['name']}", content=content,
                        canonical=BASE_URL + "/about/",
-                       og_image=BASE_URL + "/assets/logo.svg")
+                       og_image=BASE_URL + "/assets/logo.jpg")
 
 
 def build_video(base, site, video) -> str:
@@ -176,13 +179,12 @@ def build_video(base, site, video) -> str:
         og_image = f"https://img.youtube.com/vi/{vid}/maxresdefault.jpg"
     else:
         embed = '<div class="embed placeholder"><span>Video coming soon</span></div>'
-        og_image = BASE_URL + "/assets/logo.svg"
+        og_image = BASE_URL + "/assets/logo.jpg"
 
     sub = video.get("substack_url", "")
-    if missing(sub):
-        button = '<a class="btn disabled">Substack post coming soon</a>'
-    else:
-        button = f'<a class="btn" href="{esc(sub)}" target="_blank" rel="noopener">Read the Substack post →</a>'
+    button = "" if missing(sub) else (
+        f'<a class="btn" href="{esc(sub)}" target="_blank" rel="noopener">'
+        f'Read the Substack post →</a>')
 
     date = fmt_date(video.get("date", ""))
     date_html = f'<div class="date">{date}</div>' if date else ""
@@ -236,7 +238,7 @@ def build_404(base, site) -> str:
     return render_page(base, site, title=f"Not found — {site['name']}",
                        description="Page not found", content=content,
                        canonical=BASE_URL + "/404.html",
-                       og_image=BASE_URL + "/assets/logo.svg")
+                       og_image=BASE_URL + "/assets/logo.jpg")
 
 
 def write(path: Path, text: str) -> None:
