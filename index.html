@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ballpark Figures</title>
+  <meta name="description" content="Ballpark Figures — the math behind the games.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --brand-bg:   #02A4D3; /* BG_COLOR  */
+      --deep-blue:  #0000AF; /* ACCENT_FILL */
+      --gold:       #E8A33D; /* ACCENT_GOLD */
+      --cream:      #F7F2E7; /* CARD_FILL */
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: linear-gradient(160deg, var(--brand-bg) 0%, var(--deep-blue) 100%);
+      color: var(--cream);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+    }
+    .card {
+      background: var(--cream);
+      color: var(--deep-blue);
+      border-radius: 20px;
+      padding: 3.5rem 3rem;
+      max-width: 560px;
+      width: 100%;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+    }
+    h1 {
+      font-weight: 800;
+      font-size: clamp(2.2rem, 6vw, 3.4rem);
+      letter-spacing: -0.02em;
+      line-height: 1.05;
+    }
+    .rule {
+      width: 64px;
+      height: 5px;
+      background: var(--gold);
+      border-radius: 3px;
+      margin: 1.4rem auto;
+    }
+    p.tagline {
+      font-weight: 600;
+      font-size: clamp(1rem, 2.6vw, 1.25rem);
+      color: #333;
+    }
+    p.soon {
+      margin-top: 1.6rem;
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+    }
+    /* TODO: add your YouTube channel URL here to turn on the button below.
+    .cta {
+      display: inline-block;
+      margin-top: 2rem;
+      padding: 0.85rem 1.8rem;
+      background: var(--deep-blue);
+      color: var(--cream);
+      text-decoration: none;
+      font-weight: 600;
+      border-radius: 999px;
+    }
+    */
+  </style>
+</head>
+<body>
+  <main class="card">
+    <h1>Ballpark Figures</h1>
+    <div class="rule"></div>
+    <p class="tagline">The math behind the games.</p>
+    <p class="soon">Website coming soon</p>
+    <!-- To add a YouTube button, uncomment the .cta style above and this link,
+         then replace YOUR_CHANNEL_URL:
+    <a class="cta" href="YOUR_CHANNEL_URL">Watch on YouTube</a>
+    -->
+  </main>
+</body>
+</html>
