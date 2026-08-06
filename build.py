@@ -163,7 +163,7 @@ def build_index(base, site, videos) -> str:
 {about_section}
     <section id="topics">
       <div class="wrap">
-        <h2 class="section-title">Topics</h2>
+        <h2 class="section-title">Videos</h2>
         <div class="grid">
 {cards}
         </div>
