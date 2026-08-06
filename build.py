@@ -10,10 +10,12 @@ commit. Fields with "REPLACE_ME" render as tidy placeholders until filled in.
 import html
 import json
 import re
+import shutil
 from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).parent
+OUT = ROOT / "_site"          # assembled site (gitignored; CI publishes this)
 BASE_URL = "https://ballparkfigur.es"
 
 YOUTUBE_ID_RE = re.compile(r"^[A-Za-z0-9_-]{11}$")
@@ -249,13 +251,21 @@ def main() -> None:
     base = (ROOT / "templates" / "base.html").read_text(encoding="utf-8")
 
     print("Building site…")
-    write(ROOT / "index.html", build_index(base, site, videos))
-    write(ROOT / "about" / "index.html", build_about(base, site))
-    write(ROOT / "404.html", build_404(base, site))
+    if OUT.exists():
+        shutil.rmtree(OUT)
+    write(OUT / "index.html", build_index(base, site, videos))
+    write(OUT / "about" / "index.html", build_about(base, site))
+    write(OUT / "404.html", build_404(base, site))
     for video in videos:
-        write(ROOT / "videos" / video["slug"] / "index.html",
+        write(OUT / "videos" / video["slug"] / "index.html",
               build_video(base, site, video))
-    print(f"Done — {len(videos)} video page(s).")
+
+    # Copy static files into the output as-is.
+    shutil.copytree(ROOT / "assets", OUT / "assets")
+    for name in ("CNAME", ".nojekyll"):
+        shutil.copy(ROOT / name, OUT / name)
+    print(f"  copied assets/, CNAME, .nojekyll")
+    print(f"Done — {len(videos)} video page(s) → {OUT.relative_to(ROOT)}/")
 
 
 if __name__ == "__main__":

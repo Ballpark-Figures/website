@@ -1,0 +1,8 @@
+# Generated site output (built by build.py; published by CI)
+/_site/
+
+# Python
+__pycache__/
+*.py[cod]
+
+.DS_Store

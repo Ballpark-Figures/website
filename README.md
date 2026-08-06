@@ -3,16 +3,19 @@
 The Ballpark Figures website, served at **[ballparkfigur.es](https://ballparkfigur.es)**
 via GitHub Pages.
 
-A tiny **Python static-site generator** — no dependencies, no framework, no build
-service. `build.py` reads the data files, fills the templates, and writes plain HTML
-to the repo root, which GitHub Pages serves as-is (`.nojekyll`).
+A tiny **Python static-site generator** — no dependencies, no framework. `build.py`
+reads the data files, fills the templates, and assembles a plain-HTML site into
+`_site/`. On every push to `main`, a GitHub Actions workflow runs `build.py` and
+publishes `_site/` to GitHub Pages — so you only ever commit **source**, never the
+generated HTML.
 
-## Build
+## Build & preview locally
 
-    python3 build.py
+    python3 build.py                       # → _site/
+    python3 -m http.server -d _site 8000   # then open http://localhost:8000
 
-Writes `index.html`, `about/index.html`, `404.html`, and `videos/<slug>/index.html`.
-Rerun after any edit, then commit the changed source **and** generated HTML.
+`_site/` is gitignored. Edit source, push to `main`, and CI rebuilds + deploys
+(watch it under the repo's **Actions** tab).
 
 ## Edit content (no code)
 
@@ -51,4 +54,5 @@ static JS). No generator changes needed.
     assets/                style.css, logo.svg  (+ interactives/ for demos)
     interactives/          per-video HTML partials
     CNAME, .nojekyll       GitHub Pages: custom domain + serve raw files
-    index.html, about/, videos/, 404.html   ← generated (committed)
+    .github/workflows/     CI: build + deploy on push
+    _site/                 ← generated output (gitignored; published by CI)
