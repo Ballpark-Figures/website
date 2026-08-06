@@ -26,12 +26,16 @@ generated HTML.
 
       {
         "slug": "battleship",          // URL: /videos/battleship/
-        "title": "…",
+        "title": "…",                  // full title (used on the video page)
+        "topic": "Battleship",         // short label shown on the homepage
         "date": "2026-01-15",          // YYYY-MM-DD
         "youtube_id": "abcdefghijk",   // 11-char YouTube id → embed + thumbnail
         "substack_url": "https://…",   // "Read the Substack post →" button
         "blurb": "…"                   // shown on the card and the page
       }
+
+  The homepage "Topics" grid links each card straight to YouTube; the on-site
+  page at `/videos/<slug>/` has the embed + Substack link (+ interactives).
 
   Add a video = append an entry, rerun `build.py`, commit.
 

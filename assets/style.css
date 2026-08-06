@@ -44,7 +44,7 @@ a:hover { text-decoration: underline; }
 
 /* ---------- Hero ---------- */
 .hero {
-  background: linear-gradient(160deg, var(--brand) 0%, var(--deep) 100%);
+  background: var(--deep);
   color: var(--cream);
   text-align: center;
   padding: 4.5rem 1.5rem 4rem;

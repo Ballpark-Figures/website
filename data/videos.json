@@ -2,17 +2,19 @@
   {
     "slug": "yahtzee",
     "title": "I Solved Yahtzee*",
+    "topic": "Yahtzee",
     "date": "2026-07-19",
     "youtube_id": "DOgb5wrb7mM",
-    "substack_url": "REPLACE_ME",
+    "substack_url": "https://ballparkfigures.substack.com/p/yahtzee",
     "blurb": ""
   },
   {
     "slug": "battleship",
     "title": "I Analyzed All 30,093,975,536 Battleship Boards So You Don't Have To",
+    "topic": "Battleship",
     "date": "2026-06-13",
     "youtube_id": "ZBdajiTz48k",
-    "substack_url": "REPLACE_ME",
+    "substack_url": "https://ballparkfigures.substack.com/p/battleship",
     "blurb": ""
   }
 ]

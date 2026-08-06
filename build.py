@@ -94,11 +94,22 @@ def thumb_html(video: dict) -> str:
     return f'<div class="thumb placeholder">{label}</div>'
 
 
+def watch_url(video: dict) -> str:
+    """Homepage cards link straight to YouTube; fall back to the on-site page."""
+    vid = video.get("youtube_id", "")
+    if YOUTUBE_ID_RE.match(vid or ""):
+        return f"https://www.youtube.com/watch?v={vid}"
+    return f'/videos/{video["slug"]}/'
+
+
 def card_html(video: dict) -> str:
-    parts = [f'      <a class="card" href="/videos/{esc(video["slug"])}/">',
+    label = video.get("topic") or video.get("title") or ""
+    href = watch_url(video)
+    ext = ' target="_blank" rel="noopener"' if href.startswith("http") else ""
+    parts = [f'      <a class="card" href="{esc(href)}"{ext}>',
              f'        {thumb_html(video)}',
              '        <div class="card-body">',
-             f'          <h3>{esc(video["title"])}</h3>']
+             f'          <h3>{esc(label)}</h3>']
     date = fmt_date(video.get("date", ""))
     if date:
         parts.append(f'          <div class="date">{date}</div>')
@@ -137,9 +148,9 @@ def build_index(base, site, videos) -> str:
       {tagline_html(site)}
     </section>
 {about_section}
-    <section id="videos">
+    <section id="topics">
       <div class="wrap">
-        <h2 class="section-title">Videos</h2>
+        <h2 class="section-title">Topics</h2>
         <div class="grid">
 {cards}
         </div>
@@ -211,7 +222,7 @@ def build_video(base, site, video) -> str:
     content = f"""
     <section class="video-page">
       <div class="wrap">
-        <a class="back" href="/#videos">← All videos</a>
+        <a class="back" href="/#topics">← All topics</a>
         <h1>{esc(video['title'])}</h1>
         {date_html}
         {embed}
