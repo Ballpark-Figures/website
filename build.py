@@ -18,6 +18,9 @@ ROOT = Path(__file__).parent
 OUT = ROOT / "_site"          # assembled site (gitignored; CI publishes this)
 BASE_URL = "https://ballparkfigur.es"
 
+# The header "Topics" dropdown, shared by every page (set in main()).
+NAV_HTML = ""
+
 YOUTUBE_ID_RE = re.compile(r"^[A-Za-z0-9_-]{11}$")
 
 ICONS = {
@@ -65,6 +68,15 @@ def social_block(site: dict) -> str:
     return "\n".join(out)
 
 
+def nav_html(videos: list) -> str:
+    """The 'Topics' dropdown items — link to each on-site video page."""
+    return "\n".join(
+        f'            <a href="/videos/{esc(v["slug"])}/">'
+        f'{esc(v.get("topic") or v.get("title") or v["slug"])}</a>'
+        for v in videos
+    )
+
+
 def render_page(base: str, site: dict, *, title: str, description: str,
                 content: str, canonical: str, og_image: str,
                 extra_head: str = "") -> str:
@@ -75,6 +87,7 @@ def render_page(base: str, site: dict, *, title: str, description: str,
         "canonical": esc(canonical),
         "og_image": esc(og_image),
         "social": social_block(site),
+        "nav": NAV_HTML,
         "year": str(datetime.now(timezone.utc).year),
         "extra_head": extra_head,
         "content": content,  # already-built HTML, not escaped
@@ -259,9 +272,11 @@ def write(path: Path, text: str) -> None:
 
 
 def main() -> None:
+    global NAV_HTML
     site = json.loads((ROOT / "data" / "site.json").read_text(encoding="utf-8"))
     videos = json.loads((ROOT / "data" / "videos.json").read_text(encoding="utf-8"))
     base = (ROOT / "templates" / "base.html").read_text(encoding="utf-8")
+    NAV_HTML = nav_html(videos)
 
     print("Building site…")
     if OUT.exists():

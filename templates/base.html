@@ -27,7 +27,12 @@
         <span>{{name}}</span>
       </a>
       <nav class="nav">
-        <a href="/#topics">Topics</a>
+        <div class="dropdown">
+          <a href="/#topics" class="dropbtn" aria-haspopup="true">Topics <span class="caret">▾</span></a>
+          <div class="dropdown-menu">
+{{nav}}
+          </div>
+        </div>
         <a href="/about/">About</a>
       </nav>
     </div>

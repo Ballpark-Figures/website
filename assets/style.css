@@ -38,9 +38,30 @@ a:hover { text-decoration: underline; }
 .brand img { width: 34px; height: 34px; display: block; border-radius: 50%; }
 .brand span { font-weight: 800; font-size: 1.15rem; color: var(--deep); letter-spacing: -0.01em; }
 .brand:hover { text-decoration: none; }
-.nav { display: flex; gap: 1.4rem; }
+.nav { display: flex; gap: 1.4rem; align-items: center; }
 .nav a { font-weight: 600; color: var(--ink); font-size: 0.98rem; }
 .nav a:hover { color: var(--deep); text-decoration: none; }
+
+/* Topics dropdown */
+.dropdown { position: relative; }
+.dropbtn .caret { font-size: 0.7em; vertical-align: middle; }
+.dropdown-menu {
+  position: absolute; right: 0; top: 100%;
+  min-width: 170px;
+  background: var(--card);
+  border-radius: 12px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.16);
+  padding: 0.4rem 0;
+  opacity: 0; visibility: hidden; transform: translateY(6px);
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
+}
+.dropdown:hover .dropdown-menu,
+.dropdown:focus-within .dropdown-menu { opacity: 1; visibility: visible; transform: none; }
+.dropdown-menu a {
+  display: block; padding: 0.55rem 1.1rem;
+  font-weight: 600; font-size: 0.95rem; color: var(--ink); white-space: nowrap;
+}
+.dropdown-menu a:hover { background: var(--bg); color: var(--deep); text-decoration: none; }
 
 /* ---------- Hero ---------- */
 .hero {
