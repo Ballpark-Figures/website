@@ -8,4 +8,10 @@
 __pycache__/
 *.py[cod]
 
+# Machine-local Claude tooling, linked in by /sync-videos — commands is a symlink
+# to the private dotclaude repo, settings.local.json a real copy. Keep both OUT of
+# this public repo (matches the other sub-repos' .gitignore).
+.claude/commands
+.claude/settings.local.json
+
 .DS_Store
