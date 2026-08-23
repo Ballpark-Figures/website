@@ -176,21 +176,6 @@ def build_index(base, site, videos) -> str:
                        og_image=BASE_URL + "/assets/logo.jpg")
 
 
-def build_about(base, site) -> str:
-    content = f"""
-    <section class="video-page">
-      <div class="wrap">
-        <h1>About</h1>
-        {about_html(site)}
-      </div>
-    </section>
-"""
-    return render_page(base, site, title=f"About — {site['name']}",
-                       description=f"About {site['name']}", content=content,
-                       canonical=BASE_URL + "/about/",
-                       og_image=BASE_URL + "/assets/logo.jpg")
-
-
 def build_video(base, site, video) -> str:
     vid = video.get("youtube_id", "")
     valid_vid = bool(YOUTUBE_ID_RE.match(vid or ""))
