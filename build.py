@@ -282,7 +282,6 @@ def main() -> None:
     if OUT.exists():
         shutil.rmtree(OUT)
     write(OUT / "index.html", build_index(base, site, videos))
-    write(OUT / "about" / "index.html", build_about(base, site))
     write(OUT / "404.html", build_404(base, site))
     for video in videos:
         write(OUT / "videos" / video["slug"] / "index.html",
