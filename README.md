@@ -5,8 +5,8 @@ via GitHub Pages.
 
 A tiny **Python static-site generator** — no dependencies, no framework. `build.py`
 reads the data files, fills the templates, and assembles a plain-HTML site into
-`_site/`. On every push to `main`, a GitHub Actions workflow runs `build.py` and
-publishes `_site/` to GitHub Pages — so you only ever commit **source**, never the
+`_site/`. On every push to `main`, **Cloudflare Pages** (git-connected) runs
+`build.py` and publishes `_site/` — so you only ever commit **source**, never the
 generated HTML.
 
 ## Build & preview locally
@@ -14,8 +14,8 @@ generated HTML.
     python3 build.py                       # → _site/
     python3 -m http.server -d _site 8000   # then open http://localhost:8000
 
-`_site/` is gitignored. Edit source, push to `main`, and CI rebuilds + deploys
-(watch it under the repo's **Actions** tab).
+`_site/` is gitignored. Edit source, push to `main`, and Cloudflare Pages rebuilds
++ deploys (watch it in the Cloudflare Pages dashboard).
 
 ## Edit content (no code)
 
@@ -57,6 +57,5 @@ static JS). No generator changes needed.
     templates/base.html    page shell (header, footer, meta)
     assets/                style.css, logo.svg  (+ interactives/ for demos)
     interactives/          per-video HTML partials
-    CNAME, .nojekyll       GitHub Pages: custom domain + serve raw files
-    .github/workflows/     CI: build + deploy on push
-    _site/                 ← generated output (gitignored; published by CI)
+    CNAME, .nojekyll       custom domain + serve raw files
+    _site/                 ← generated output (gitignored; built + published by Cloudflare Pages)
