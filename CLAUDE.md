@@ -49,7 +49,22 @@ tracked file here (see the shared rule). Read `README.md` first.
 - `data/site.json` — channel name, tagline, About, email, social links. `REPLACE_ME`
   fields render as tidy placeholders until filled.
 - `data/videos.json` — one object per video (`slug`, `title`, `topic`, `date`,
-  `youtube_id`, `substack_url`, `blurb`). Add a video = append an entry, rerun,
-  commit.
+  `youtube_id`, `post_url`, `blurb`). `post_url` is the "Read the blog post →"
+  button and is platform-neutral (Patreon **or** Substack, per video). Add a
+  video = append an entry, rerun, commit.
 - Per-video interactives: `interactives/<slug>.html` +
   `assets/interactives/<slug>.{css,js}` (see `interactives/README.md`).
+
+### Sourcing a new video's fields (pull them yourself — don't ask)
+- **`youtube_id` / `title` / `date`** come from the channel's own YouTube data,
+  reachable from the sibling `analytics/` service: query its Neon DB for owned
+  videos (`videos` join `channels` on `is_mine`) with `analytics/.venv/bin/python`
+  (allow-listed) using `DATABASE_URL` from `analytics/.env`, or hit the Data API
+  `videos.list?part=snippet` with the `YOUTUBE_API_KEY` in that same `.env`.
+- **`post_url`** — the video's YouTube **description** (`videos.list?part=snippet`)
+  carries the "Blog post:" link. As of the Hangman video the channel posts to
+  **Patreon** (campaign `https://www.patreon.com/BallparkFigures`); older videos
+  (Yahtzee, Battleship) have posts on both Patreon and Substack but are linked to
+  their Substack `/p/<slug>` here by preference. There is **no** Patreon API
+  credential in `analytics/` (it's YouTube-only) — Patreon URLs come from the
+  YouTube description, or a Patreon Creator token if one is set up later.

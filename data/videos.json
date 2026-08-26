@@ -1,11 +1,20 @@
 [
   {
+    "slug": "hangman",
+    "title": "I Tried to Solve Hangman",
+    "topic": "Hangman",
+    "date": "2026-08-23",
+    "youtube_id": "ApdLgfgfh5o",
+    "post_url": "https://www.patreon.com/BallparkFigures/posts/hangman-167766981/",
+    "blurb": ""
+  },
+  {
     "slug": "yahtzee",
     "title": "I Solved Yahtzee*",
     "topic": "Yahtzee",
     "date": "2026-07-19",
     "youtube_id": "DOgb5wrb7mM",
-    "substack_url": "https://ballparkfigures.substack.com/p/yahtzee",
+    "post_url": "https://ballparkfigures.substack.com/p/yahtzee",
     "blurb": ""
   },
   {
@@ -14,7 +23,7 @@
     "topic": "Battleship",
     "date": "2026-06-13",
     "youtube_id": "ZBdajiTz48k",
-    "substack_url": "https://ballparkfigures.substack.com/p/battleship",
+    "post_url": "https://ballparkfigures.substack.com/p/battleship",
     "blurb": ""
   }
 ]

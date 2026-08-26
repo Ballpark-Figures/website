@@ -20,7 +20,7 @@ generated HTML.
 ## Edit content (no code)
 
 - **`data/site.json`** — channel name, tagline, About text, email, and social links
-  (YouTube / Substack / GitHub). Fields left as `REPLACE_ME` render as tidy
+  (YouTube / Patreon / GitHub). Fields left as `REPLACE_ME` render as tidy
   placeholders (dimmed link / "coming soon") until you fill them.
 - **`data/videos.json`** — one object per video:
 
@@ -30,12 +30,12 @@ generated HTML.
         "topic": "Battleship",         // short label shown on the homepage
         "date": "2026-01-15",          // YYYY-MM-DD
         "youtube_id": "abcdefghijk",   // 11-char YouTube id → embed + thumbnail
-        "substack_url": "https://…",   // "Read the Substack post →" button
+        "post_url": "https://…",       // "Read the blog post →" button (Patreon or Substack)
         "blurb": "…"                   // shown on the card and the page
       }
 
   The homepage "Topics" grid links each card straight to YouTube; the on-site
-  page at `/videos/<slug>/` has the embed + Substack link (+ interactives).
+  page at `/videos/<slug>/` has the embed + blog-post link (+ interactives).
 
   Add a video = append an entry, rerun `build.py`, commit.
 

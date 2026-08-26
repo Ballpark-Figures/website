@@ -25,7 +25,7 @@ YOUTUBE_ID_RE = re.compile(r"^[A-Za-z0-9_-]{11}$")
 
 ICONS = {
     "youtube": '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.6 3.6 12 3.6 12 3.6s-7.6 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.8.5 9.4.5 9.4.5s7.6 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.6 15.6V8.4l6.4 3.6-6.4 3.6z"/></svg>',
-    "substack": '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M1.5 0h21v2.6h-21zM1.5 4.9h21v2.6h-21zM1.5 9.8v14.2l10.5-5.9 10.5 5.9V9.8z"/></svg>',
+    "patreon": '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M0 .48v23.04h4.22V.48zm15.385 0c-4.764 0-8.641 3.877-8.641 8.641 0 4.75 3.877 8.613 8.641 8.613 4.75 0 8.615-3.863 8.615-8.613C24 4.357 20.135.48 15.385.48z"/></svg>',
     "github": '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5C5.7.5.5 5.7.5 12a11.5 11.5 0 0 0 7.9 10.9c.6.1.8-.2.8-.5v-1.7c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17 4.6 18 4.9 18 4.9c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.6.8.5A11.5 11.5 0 0 0 23.5 12C23.5 5.7 18.3.5 12 .5z"/></svg>',
     "email": '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 4H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h20a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4-10 6L2 8V6l10 6 10-6z"/></svg>',
 }
@@ -53,7 +53,7 @@ def social_block(site: dict) -> str:
     items = [
         # key, label, href, opens_in_new_tab
         ("youtube", "YouTube", site.get("youtube_url", ""), True),
-        ("substack", "Substack", site.get("substack_url", ""), True),
+        ("patreon", "Patreon", site.get("patreon_url", ""), True),
         ("github", "GitHub", site.get("github_url", ""), True),
         ("email", "Email", "" if missing(email) else f"mailto:{email}", False),
     ]
@@ -190,10 +190,10 @@ def build_video(base, site, video) -> str:
         embed = '<div class="embed placeholder"><span>Video coming soon</span></div>'
         og_image = BASE_URL + "/assets/logo.jpg"
 
-    sub = video.get("substack_url", "")
-    button = "" if missing(sub) else (
-        f'<a class="btn" href="{esc(sub)}" target="_blank" rel="noopener">'
-        f'Read the Substack post →</a>')
+    post = video.get("post_url", "")
+    button = "" if missing(post) else (
+        f'<a class="btn" href="{esc(post)}" target="_blank" rel="noopener">'
+        f'Read the blog post →</a>')
 
     date = fmt_date(video.get("date", ""))
     date_html = f'<div class="date">{date}</div>' if date else ""
