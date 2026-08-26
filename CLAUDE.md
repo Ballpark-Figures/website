@@ -61,10 +61,17 @@ tracked file here (see the shared rule). Read `README.md` first.
   videos (`videos` join `channels` on `is_mine`) with `analytics/.venv/bin/python`
   (allow-listed) using `DATABASE_URL` from `analytics/.env`, or hit the Data API
   `videos.list?part=snippet` with the `YOUTUBE_API_KEY` in that same `.env`.
-- **`post_url`** — the video's YouTube **description** (`videos.list?part=snippet`)
-  carries the "Blog post:" link. As of the Hangman video the channel posts to
-  **Patreon** (campaign `https://www.patreon.com/BallparkFigures`); older videos
+- **`post_url`** — as of the Hangman video the channel posts to **Patreon**
+  (campaign `https://www.patreon.com/BallparkFigures`, id `16154815`); older videos
   (Yahtzee, Battleship) have posts on both Patreon and Substack but are linked to
-  their Substack `/p/<slug>` here by preference. There is **no** Patreon API
-  credential in `analytics/` (it's YouTube-only) — Patreon URLs come from the
-  YouTube description, or a Patreon Creator token if one is set up later.
+  their Substack `/p/<slug>` here by preference.
+  - **Patreon API v2** is set up: a Creator token for the own-campaign lives in
+    `analytics/.env` as `PATREON_ACCESS_TOKEN` (+ `PATREON_REFRESH_TOKEN`,
+    `PATREON_CLIENT_ID`, `PATREON_CLIENT_SECRET`; gitignored — never commit). List
+    every post's title + URL with
+    `GET https://www.patreon.com/api/oauth2/v2/campaigns/16154815/posts?fields[post]=title,url,published_at`
+    and `Authorization: Bearer <token>`. The access token is ~30-day; refresh via
+    `POST https://www.patreon.com/api/oauth2/token` (grant_type=refresh_token) and
+    write the new token back to `.env`.
+  - A video's YouTube **description** (`videos.list?part=snippet`) also carries the
+    "Blog post:" link — a second source if the Patreon API is ever unavailable.
