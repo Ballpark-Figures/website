@@ -37,7 +37,17 @@ generated HTML.
   The homepage "Topics" grid links each card straight to YouTube; the on-site
   page at `/videos/<slug>/` has the embed + blog-post link (+ interactives).
 
-  Add a video = append an entry, rerun `build.py`, commit.
+  **Add a video the quick way** — right after publishing on YouTube:
+
+      python3 add_video.py                 # picks your newest upload not on the site
+      python3 add_video.py <url-or-id>     # or name a specific video
+
+  It pulls the title + date from the YouTube Data API, proposes a slug/topic,
+  finds the matching Patreon post (or offers Substack), and on confirm inserts the
+  entry into `data/videos.json` (newest-first) and reruns `build.py`. Then just
+  preview, commit `data/videos.json`, and push to deploy. (Keys come from the
+  sibling `analytics/.env`; see the sourcing notes in `CLAUDE.md`.) Or edit
+  `data/videos.json` by hand and rerun `build.py`.
 
 ## Interactives (per video)
 
