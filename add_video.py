@@ -194,7 +194,9 @@ def choose_post_url(topic: str, slug: str, snippet: dict, cfg: dict) -> str:
     if desc_link and desc_link not in (patreon_guess, substack_guess):
         print(f"  [d] From description:   {desc_link}")
     print("  [u] paste a URL   [n] none")
-    default = "p" if patreon_guess else "s"
+    # Never DEFAULT to the Substack guess: it is a URL built from the slug, not one known
+    # to exist, and accepting it put a dead link on the Wordle page (2026-10-12).
+    default = "p" if patreon_guess else ("d" if desc_link else "n")
     while True:
         pick = ask("  choose", default).lower()
         if pick == "p" and patreon_guess:
