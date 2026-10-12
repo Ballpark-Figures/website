@@ -107,19 +107,12 @@ def thumb_html(video: dict) -> str:
     return f'<div class="thumb placeholder">{label}</div>'
 
 
-def watch_url(video: dict) -> str:
-    """Homepage cards link straight to YouTube; fall back to the on-site page."""
-    vid = video.get("youtube_id", "")
-    if YOUTUBE_ID_RE.match(vid or ""):
-        return f"https://www.youtube.com/watch?v={vid}"
-    return f'/videos/{video["slug"]}/'
-
-
 def card_html(video: dict) -> str:
+    """A homepage card. It links to the topic's own page (the user's call, 2026-10-12),
+    which embeds the video and carries the bonus-video button and the links."""
     label = video.get("topic") or video.get("title") or ""
-    href = watch_url(video)
-    ext = ' target="_blank" rel="noopener"' if href.startswith("http") else ""
-    parts = [f'      <a class="card" href="{esc(href)}"{ext}>',
+    href = f'/videos/{video["slug"]}/'
+    parts = [f'      <a class="card" href="{esc(href)}">',
              f'        {thumb_html(video)}',
              '        <div class="card-body">',
              f'          <h3>{esc(label)}</h3>']
@@ -191,9 +184,13 @@ def build_video(base, site, video) -> str:
         og_image = BASE_URL + "/assets/logo.jpg"
 
     post = video.get("post_url", "")
+    # post_label is "See the Bonus Video" from Wordle on; older entries have none and
+    # keep the original wording.
+    label = video.get("post_label") or "Read the blog post"
     button = "" if missing(post) else (
         f'<a class="btn" href="{esc(post)}" target="_blank" rel="noopener">'
-        f'Read the blog post →</a>')
+        f'{esc(label)} →</a>')
+    links = links_html(video.get("links") or [])
 
     date = fmt_date(video.get("date", ""))
     date_html = f'<div class="date">{date}</div>' if date else ""
@@ -226,6 +223,7 @@ def build_video(base, site, video) -> str:
         {embed}
         {desc_html}
         {button}
+        {links}
       </div>
     </section>{interactive_html}{js_tag}
 """
@@ -234,6 +232,27 @@ def build_video(base, site, video) -> str:
                        content=content, extra_head=extra_head,
                        canonical=f"{BASE_URL}/videos/{video['slug']}/",
                        og_image=og_image)
+
+
+def links_html(links: list) -> str:
+    """The video's helpful links, one item per line of its YouTube description, in the
+    description's own words. An item with several URLs numbers them."""
+    items = []
+    for item in links:
+        urls = [u for u in item.get("urls", []) if not missing(u)]
+        if not urls:
+            continue
+        label = esc(item.get("label") or urls[0])
+        a = lambda u, text: f'<a href="{esc(u)}" target="_blank" rel="noopener">{text}</a>'
+        if len(urls) == 1:
+            items.append(f"<li>{a(urls[0], label)}</li>")
+        else:
+            nums = ", ".join(a(u, str(i)) for i, u in enumerate(urls, 1))
+            items.append(f"<li>{label}: {nums}</li>")
+    if not items:
+        return ""
+    return ('<div class="links"><h2>Links</h2><ul>\n          '
+            + "\n          ".join(items) + "\n        </ul></div>")
 
 
 def build_404(base, site) -> str:

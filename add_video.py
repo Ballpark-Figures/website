@@ -212,6 +212,26 @@ def choose_post_url(topic: str, slug: str, snippet: dict, cfg: dict) -> str:
         print("  (pick p / s / d / u / n)")
 
 
+# ── helpful links (the same rule as analytics' bpkanalytics/release.py) ──────
+
+URL_RE = re.compile(r"https?://\S+")
+
+
+def description_links(description: str, skip: set[str]) -> list[dict]:
+    """One item per description line holding a URL, labelled with that line's text
+    before its first URL; URLs in `skip` (this page, the button's link) are dropped.
+    Keep in step with description_links in analytics/bpkanalytics/release.py."""
+    out = []
+    for line in (description or "").splitlines():
+        urls = [u.rstrip(".,)") for u in URL_RE.findall(line)]
+        urls = [u for u in urls if u.rstrip("/") not in skip]
+        if not urls:
+            continue
+        label = line[:URL_RE.search(line).start()].strip().rstrip(":").strip()
+        out.append({"label": label, "urls": urls})
+    return out
+
+
 # ── main ────────────────────────────────────────────────────────────────────
 
 def suggest_slug(title: str) -> str:
@@ -247,6 +267,9 @@ def main() -> None:
         sys.exit(f"Slug {slug!r} is already taken in videos.json.")
     post_url = choose_post_url(topic, slug, snippet, cfg)
     blurb = ask("Blurb (optional)", "")
+    page = f"https://www.ballparkfigur.es/videos/{slug}"
+    links = description_links(snippet["description"],
+                              {page, page.replace("://www.", "://"), post_url.rstrip("/")})
 
     entry = {
         "slug": slug,
@@ -255,7 +278,9 @@ def main() -> None:
         "date": snippet["date"],
         "youtube_id": snippet["id"],
         "post_url": post_url or "REPLACE_ME",
+        "post_label": "See the Bonus Video",
         "blurb": blurb,
+        "links": links,
     }
     print("\nAdding this entry:\n" + json.dumps(entry, indent=2, ensure_ascii=False))
     if ask("\nLooks right? (y/n)", "y").lower() not in ("y", "yes"):

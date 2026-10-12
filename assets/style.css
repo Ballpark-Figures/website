@@ -126,6 +126,11 @@ section { padding: 3.2rem 0; }
 }
 .btn:hover { text-decoration: none; filter: brightness(1.05); }
 .btn.disabled { background: #e3e0d8; color: #9a978f; cursor: default; pointer-events: none; }
+.links { margin-top: 2.2rem; max-width: 760px; }
+.links h2 { font-size: 1.15rem; color: var(--deep); font-weight: 800; margin-bottom: 0.6rem; }
+.links ul { list-style: disc; padding-left: 1.3rem; }
+.links li { font-size: 1rem; color: var(--ink); margin: 0.35rem 0; }
+.links a { font-weight: 600; }
 
 /* ---------- Per-video interactive ---------- */
 .interactive { padding: 0 0 2.4rem; }

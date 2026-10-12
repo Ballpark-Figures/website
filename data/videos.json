@@ -6,7 +6,29 @@
     "date": "2026-10-11",
     "youtube_id": "h-Rusd72W7U",
     "post_url": "https://www.patreon.com/BallparkFigures/posts/172030861/",
-    "blurb": ""
+    "blurb": "",
+    "post_label": "See the Bonus Video",
+    "links": [
+      {
+        "label": "GitHub",
+        "urls": [
+          "https://github.com/Ballpark-Figures/wordle"
+        ]
+      },
+      {
+        "label": "Helpful resources from the speedrunning community",
+        "urls": [
+          "https://docs.google.com/spreadsheets/d/139WEXT8xooGsETU5Gx0_DeAwgNtQ32Pq6IIVmMt2_R0/",
+          "https://docs.google.com/document/d/1c_hLzVcd8jtZE9lPGKKMV1GJ8Hz7P8gi4T_v7pA6izw/"
+        ]
+      },
+      {
+        "label": "The paper that I replicated to generate the optimal strategy",
+        "urls": [
+          "https://auction-upload-files.s3.amazonaws.com/Wordle_Paper_Final.pdf"
+        ]
+      }
+    ]
   },
   {
     "slug": "hangman",

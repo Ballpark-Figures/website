@@ -49,9 +49,17 @@ tracked file here (see the shared rule). Read `README.md` first.
 - `data/site.json` — channel name, tagline, About, email, social links. `REPLACE_ME`
   fields render as tidy placeholders until filled.
 - `data/videos.json` — one object per video (`slug`, `title`, `topic`, `date`,
-  `youtube_id`, `post_url`, `blurb`). `post_url` is the "Read the blog post →"
-  button and is platform-neutral (Patreon **or** Substack, per video). Add a
-  video = append an entry, rerun, commit.
+  `youtube_id`, `post_url`, `post_label`, `blurb`, `links`). `post_url` is the
+  button and is platform-neutral (Patreon **or** Substack, per video); `post_label`
+  is its wording — **"See the Bonus Video" from Wordle on** (the user's call,
+  2026-10-12); entries without it keep "Read the blog post". `links` is the topic
+  page's Links section: `[{"label", "urls": [...]}]`, one item per line of the
+  video's YouTube description, in the description's own words.
+- **Homepage cards link to the topic page (`/videos/<slug>/`), not to YouTube**
+  (the user's call, 2026-10-12).
+- **A release adds its entry AUTOMATICALLY** — the analytics `bpka release` job,
+  scheduled for the release time the user gives (see PUBLISHING.md). `add_video.py`
+  is the manual fallback and fills the same fields by the same rule.
 - Per-video interactives: `interactives/<slug>.html` +
   `assets/interactives/<slug>.{css,js}` (see `interactives/README.md`).
 
