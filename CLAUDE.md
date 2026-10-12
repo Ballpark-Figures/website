@@ -55,6 +55,9 @@ tracked file here (see the shared rule). Read `README.md` first.
   2026-10-12); entries without it keep "Read the blog post". `links` is the topic
   page's Links section: `[{"label", "urls": [...]}]`, one item per line of the
   video's YouTube description, in the description's own words.
+- `data/sponsors.json` — sponsor SITES (domains) whose links are left OFF topic pages
+  (the user's call, 2026-10-12). The description cannot say which link is a sponsor's,
+  so this list does; add each new sponsor's domain when its video's release is scheduled.
 - **Homepage cards link to the topic page (`/videos/<slug>/`), not to YouTube**
   (the user's call, 2026-10-12).
 - **A release adds its entry AUTOMATICALLY** — the analytics `bpka release` job,

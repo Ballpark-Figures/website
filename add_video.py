@@ -217,14 +217,20 @@ def choose_post_url(topic: str, slug: str, snippet: dict, cfg: dict) -> str:
 URL_RE = re.compile(r"https?://\S+")
 
 
-def description_links(description: str, skip: set[str]) -> list[dict]:
+def _host(url: str) -> str:
+    return urllib.parse.urlparse(url).netloc.lower().removeprefix("www.")
+
+
+def description_links(description: str, skip: set[str], sponsors: list[str]) -> list[dict]:
     """One item per description line holding a URL, labelled with that line's text
-    before its first URL; URLs in `skip` (this page, the button's link) are dropped.
+    before its first URL; URLs in `skip` (this page, the button's link) are dropped, and
+    so is any URL on a sponsor's site (data/sponsors.json).
     Keep in step with description_links in analytics/bpkanalytics/release.py."""
     out = []
     for line in (description or "").splitlines():
         urls = [u.rstrip(".,)") for u in URL_RE.findall(line)]
-        urls = [u for u in urls if u.rstrip("/") not in skip]
+        urls = [u for u in urls if u.rstrip("/") not in skip
+                and not any(_host(u) == d or _host(u).endswith("." + d) for d in sponsors)]
         if not urls:
             continue
         label = line[:URL_RE.search(line).start()].strip().rstrip(":").strip()
@@ -268,8 +274,10 @@ def main() -> None:
     post_url = choose_post_url(topic, slug, snippet, cfg)
     blurb = ask("Blurb (optional)", "")
     page = f"https://www.ballparkfigur.es/videos/{slug}"
+    sponsors = json.loads((ROOT / "data" / "sponsors.json").read_text(encoding="utf-8"))
     links = description_links(snippet["description"],
-                              {page, page.replace("://www.", "://"), post_url.rstrip("/")})
+                              {page, page.replace("://www.", "://"), post_url.rstrip("/")},
+                              sponsors)
 
     entry = {
         "slug": slug,
